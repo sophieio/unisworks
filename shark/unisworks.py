@@ -54,7 +54,6 @@ def unisworks(work):
             -->
 
             <section class="slide-middle">
-              <!--<span class="background-left-top dark" style="background-image:url('static/images/mdai-logo.svg')"></span>-->
               <div class="wrap">
                 <div class="content-right">
                   <!--<div class="content-center">-->
@@ -91,6 +90,29 @@ def unisworks(work):
     """
     header = html_header.format(work['title'], work['title'], work['author'])
     #header = html_header % (work['title'], work['title'])
+    
+    html_quote = """
+            <section class="bg-black-blue">
+              <span class="background dark" style="background-image:url('{}')"></span>
+              <!--.wrap = container 1200px -->
+              <div class="wrap">
+                <blockquote class="wall">
+                  <p class="fadeIn slow">{}
+                  </p>
+                  <p class="fadeInUp slow"><cite>{}</cite></p>
+                </blockquote>
+              </div>
+              <!-- .end .wrap -->
+            </section>
+            
+    """
+    if work['quoteImage'].startswith('http') or work['quoteImage'].startswith('static'):
+      img_url = work['quoteImage']
+    else: # use unsplash otherwise
+      img_url = "https://source.unsplash.com/" + work['quoteImage'] + '/'
+    
+    quote = html_quote.format(img_url, work['quote'], work['quoteAuthor'])
+    #quote = html_quote % (work['quoteImage'], work['quote'], work['quoteAuthor'])
     
     html_title = """
             <section class="bg-white fullscreen">
@@ -130,28 +152,6 @@ def unisworks(work):
     title = html_title.format(img_url, work['authorPhoto'], work['title'], work['subtitle'], work['date'], work['author'], work['grade'], work['patreon'])
     #title = html_title % (work['titleImage'], work['authorPhoto'], work['title'], work['date'], work['author'], work['patreon'])
 
-    html_quote = """
-            <section class="bg-black-blue">
-              <span class="background" style="background-image:url('{}')"></span>
-              <!--.wrap = container 1200px -->
-              <div class="wrap">
-                <blockquote class="wall">
-                  <p class="fadeIn slow">{}
-                  </p>
-                  <p class="fadeInUp slow"><cite>{}</cite></p>
-                </blockquote>
-              </div>
-              <!-- .end .wrap -->
-            </section>
-            
-    """
-    if work['quoteImage'].startswith('http') or work['quoteImage'].startswith('static'):
-      img_url = work['quoteImage']
-    else: # use unsplash otherwise
-      img_url = "https://source.unsplash.com/" + work['quoteImage'] + '/'
-    
-    quote = html_quote.format(img_url, work['quote'], work['quoteAuthor'])
-    #quote = html_quote % (work['quoteImage'], work['quote'], work['quoteAuthor'])
     
     html_text = """
             <section class="bg-black-blue">
@@ -183,12 +183,7 @@ def unisworks(work):
             <section class="bg-black-blue">
               <span class="background dark" style="background-image:url('{}')"></span>
               <div class="wrap size-60">
-                  <blockquote class="wall content-right fadeInUp slow">
-                    <p>
-                      &nbsp;
-                    </p>
                     <p align="right"><code>The End</code></p>
-                  </blockquote>
               </div>
             </section>
     """
@@ -251,7 +246,7 @@ def unisworks(work):
     
     #html_final_work = html_header + html_title + html_quote + html_text + \
     #                  html_thanks + html_end
-    final_work = header + title + quote + text + thanks + end
+    final_work = header + quote + title + text + thanks + end
     
     return final_work
     
