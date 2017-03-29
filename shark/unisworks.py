@@ -7,8 +7,8 @@ def unisworks(work):
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- SEO -->
-        <title> {} </title>
-        <meta name="description" content="UNIS Works - {} ">
+        <title>{}</title>
+        <meta name="description" content="UNIS Works - {}, by {}">
 
         <!-- URL CANONICAL -->
         <!-- <link rel="canonical" href="http://your-url.com/"> -->
@@ -40,6 +40,7 @@ def unisworks(work):
         <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Nothing+You+Could+Do" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Maitree" rel="stylesheet">
 
       </head>
       <body>
@@ -88,15 +89,14 @@ def unisworks(work):
             </section>
 
     """
-    header = html_header.format(work['title'], work['title'])
-    #return html_header
+    header = html_header.format(work['title'], work['title'], work['author'])
     #header = html_header % (work['title'], work['title'])
     
     html_title = """
             <section class="bg-white fullscreen">
               <div class="card-50">
                 <figure>
-                  <img src="https://source.unsplash.com/{}/" alt="stars">
+                  <img src="{}" alt="stars">
                 </figure>
                 <!-- end figure-->
                 <div class="flex-content aligncenter">
@@ -122,13 +122,17 @@ def unisworks(work):
             </section>
             
     """
-    #title=""
-    title = html_title.format(work['titleImage'], work['authorPhoto'], work['title'], work['subtitle'], work['date'], work['author'], work['grade'], work['patreon'])
+    if work['titleImage'].startswith('http') or work['titleImage'].startswith('static'):
+      img_url = work['titleImage']
+    else: # use unsplash otherwise
+      img_url = "https://source.unsplash.com/" + work['titleImage'] + '/'
+    
+    title = html_title.format(img_url, work['authorPhoto'], work['title'], work['subtitle'], work['date'], work['author'], work['grade'], work['patreon'])
     #title = html_title % (work['titleImage'], work['authorPhoto'], work['title'], work['date'], work['author'], work['patreon'])
 
     html_quote = """
             <section class="bg-black-blue">
-              <span class="background" style="background-image:url('https://source.unsplash.com/{}/')"></span>
+              <span class="background" style="background-image:url('{}')"></span>
               <!--.wrap = container 1200px -->
               <div class="wrap">
                 <blockquote class="wall">
@@ -141,12 +145,17 @@ def unisworks(work):
             </section>
             
     """
-    quote = html_quote.format(work['quoteImage'], work['quote'], work['quoteAuthor'])
+    if work['quoteImage'].startswith('http') or work['quoteImage'].startswith('static'):
+      img_url = work['quoteImage']
+    else: # use unsplash otherwise
+      img_url = "https://source.unsplash.com/" + work['quoteImage'] + '/'
+    
+    quote = html_quote.format(img_url, work['quote'], work['quoteAuthor'])
     #quote = html_quote % (work['quoteImage'], work['quote'], work['quoteAuthor'])
     
     html_text = """
             <section class="bg-black-blue">
-              <span class="background dark" style="background-image:url('{}'); background-size: contain; background-position: center;"></span>
+              <span class="background dark" style="background-image:url('{}')"></span>
               <div class="wrap size-60">
                   <blockquote class="wall fadeInUp slow">
                     <p>
@@ -157,17 +166,22 @@ def unisworks(work):
               </div>
             </section>
     """
+    if work['textImage'].startswith('http') or work['textImage'].startswith('static'):
+      img_url = work['textImage']
+    else: # use unsplash otherwise
+      img_url = "https://source.unsplash.com/" + work['textImage'] + '/'
+      
     # create a new slide for every paragraph
     text = ""
     for p in work['text']:
-      text += html_text.format(work['textImage'], p)
+      text += html_text.format(img_url, p)
       
     #text = html_text.format(work['text'])
     #text = html_text % (work['text'])
     
     html_text_theend = """
             <section class="bg-black-blue">
-              <span class="background dark" style="background-image:url('{}'); background-size: contain; background-position: center;"></span>
+              <span class="background dark" style="background-image:url('{}')"></span>
               <div class="wrap size-60">
                   <blockquote class="wall content-right fadeInUp slow">
                     <p>
@@ -178,7 +192,12 @@ def unisworks(work):
               </div>
             </section>
     """
-    text += html_text_theend.format(work['textImage'])
+    if work['textImage'].startswith('http') or work['textImage'].startswith('static'):
+      img_url = work['textImage']
+    else: # use unsplash otherwise
+      img_url = "https://source.unsplash.com/" + work['textImage'] + '/'
+    
+    text += html_text_theend.format(img_url)
     
     html_thanks = """
             <section class="slide-middle">
