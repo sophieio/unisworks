@@ -180,8 +180,8 @@ def unisworks(work):
     html_text_theend = """
             <section class="bg-black-blue">
               <span class="background dark" style="background-image:url('{}')"></span>
-              <div class="wrap size-60">
-                    <p align="right"><code>The End</code></p>
+              <div class="wrap size-60 content-center">
+                    <p class="text-intro"><code>The End</code></p>
               </div>
             </section>
     """
